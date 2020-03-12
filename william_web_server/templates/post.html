@@ -1,0 +1,43 @@
+{% extends "general_layout.html" %}
+{% block content %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img " src="{{ url_for('static', filename='user_profile_pics/' + post.author.image_file)}}" >
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author.username }}</a>
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
+              {% if post.author == current_user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm m-1" href="{{ url_for('update_post', post_id=post.id) }}">点我更新文章</a>
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">点我删除文章</button>
+                </div>
+              {% endif %}
+            </div>
+            <h2 class="article-title">{{ post.title }}</h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+      </article>
+
+      <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">注意！您确认要删除文章吗？</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            删除操作为不可逆操作，一旦点击删除了文章，将无法恢复，请谨慎操作，您确认要删除该文章吗？
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">我再想想</button>
+            <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="点我删除">
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock content %}

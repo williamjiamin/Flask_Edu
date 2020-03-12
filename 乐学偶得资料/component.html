@@ -1,0 +1,155 @@
+layout.html头部与导航栏组件
+
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">乐学知识，偶得美好</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="/">主页</a>
+              <a class="nav-item nav-link" href="/about">关于</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="/login">登录</a>
+              <a class="nav-item nav-link" href="/register">注册</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>导航栏</h3>
+            <p class='text-muted'>这里可以写你想要的内容
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">最新文章</li>
+                <li class="list-group-item list-group-item-light">公告</li>
+                <li class="list-group-item list-group-item-light">日历</li>
+                <li class="list-group-item list-group-item-light">其他</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+   
+
+
+layout.html通过url_for添加：
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+
+
+
+main.html部分
+
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ post.author }}</a>
+        <small class="text-muted">{{ post.date_posted }}</small>
+      </div>
+      <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+      <p class="article-content">{{ post.content }}</p>
+    </div>
+</article>
+
+
+
+
+  css文件 放入static文件夹
+  body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+  

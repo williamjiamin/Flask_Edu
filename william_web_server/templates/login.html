@@ -1,0 +1,61 @@
+{% extends "general_layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mk-4">快快登陆乐学偶得吧~</legend>
+                                
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label")}}
+                    {% if form.email.errors %}
+                    {{ form.email(class ="form-control form-control-lg is-invalid" )}}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span> {{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control form-control-lg")}}
+                {% endif %} 
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label")}}
+                    {% if form.password.errors %}
+                        {{ form.password(class ="form-control form-control-lg is-invalid" )}}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg")}}
+                    {% endif %} 
+                </div>
+                
+                <div class="form-check">
+                    {{ form.remember(class= "form-check-input")}}
+                    {{ form.remember.label(class= "form-check-label")}}
+                </div>
+                
+            </fieldset>
+
+            <div class = "form-group">
+                {{form.submit(class = "btn btn-outline-info")}}
+            </div>
+
+            <small class="text-muted ml-2">
+                <a href="{{url_for('reset_request')}}">忘记密码了吗？点我找回</a>
+            </small>
+
+
+        </form>
+    </div>
+
+    <div class= "border-top pt-3">
+        <small class= "text-muted">
+            还没注册乐学偶得账户？<a class="ml-2" href="{{ url_for('register') }}">点我注册，加入乐学偶得，10万小伙伴等你一起来玩~</a>
+        </small>
+    </div>
+{% endblock content %}
