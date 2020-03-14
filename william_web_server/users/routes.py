@@ -13,7 +13,7 @@ users = Blueprint('users', __name__)
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -22,21 +22,21 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'您的账号已经成功注册咯~欢迎【{form.username.data}】加入乐学偶得的大家庭，也欢迎关注乐学偶得公众号哟：乐学Fintech', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template("register.html", title="乐学偶得注册界面", form=form)
 
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get("next")
-            return redirect(next_page) if next_page else redirect(url_for("index"))
+            return redirect(next_page) if next_page else redirect(url_for("main.index"))
         else:
             flash("Oops，登录失败，客官要不再想想您的email与密码是否正确呢？", "danger")
 
@@ -46,7 +46,7 @@ def login():
 @users.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("main.index"))
 
 
 @users.route('/account', methods=['GET', 'POST'])
@@ -61,7 +61,7 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
         flash("您的信息已经成功更新", "success")
-        return redirect(url_for("account"))
+        return redirect(url_for("users.account"))
     elif request.method == "GET":
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -81,29 +81,29 @@ def user_posts(username):
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash('已经将重置密码邮件发送到您的邮箱，请注意及时查收并设置新的密码', 'info')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='邮箱重置密码页面', form=form)
 
 
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     user = User.verify_reset_token(token)
     if user is None:
         flash('不好意思，您的验证标识不正确，请重试', 'warning')
-        return redirect(url_for('reset_request'))
+        return redirect(url_for('users.reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
         flash(f'您的密码已经成功修改~欢迎您回到乐学偶得的大家庭，也欢迎关注乐学偶得公众号哟：乐学Fintech', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='输入新密码页面', form=form)

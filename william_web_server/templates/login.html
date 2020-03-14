@@ -46,7 +46,7 @@
             </div>
 
             <small class="text-muted ml-2">
-                <a href="{{url_for('reset_request')}}">忘记密码了吗？点我找回</a>
+                <a href="{{url_for('users.reset_request')}}">忘记密码了吗？点我找回</a>
             </small>
 
 
@@ -55,7 +55,7 @@
 
     <div class= "border-top pt-3">
         <small class= "text-muted">
-            还没注册乐学偶得账户？<a class="ml-2" href="{{ url_for('register') }}">点我注册，加入乐学偶得，10万小伙伴等你一起来玩~</a>
+            还没注册乐学偶得账户？<a class="ml-2" href="{{ url_for('users.register') }}">点我注册，加入乐学偶得，10万小伙伴等你一起来玩~</a>
         </small>
     </div>
 {% endblock content %}

@@ -27,6 +27,6 @@ def send_reset_email(user):
                   sender='William<williamjiamin@163.com>',
                   recipients=[user.email])
     msg.body = f'''您正在进行【乐学偶得】忘记密码操作，请点击下列链接进行密码重置：
-{url_for('reset_token', token=token, _external=True)}
+{url_for('users.reset_token', token=token, _external=True)}
 '''
     mail.send(msg)
